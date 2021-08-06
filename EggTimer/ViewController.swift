@@ -9,7 +9,32 @@
 import UIKit
 
 class ViewController: UIViewController {
+    @IBOutlet weak var titleLabel: UILabel!
     
+    let eggTimes = ["Soft": 3, "Medium": 4, "Hard": 7]
+    
+    var secondsRemaning = 60
+    
+    var timer = Timer()
 
-
+    @IBAction func hardnessSelected(_ sender: UIButton) {
+        
+        timer.invalidate()
+        
+        let hardness = sender.currentTitle!
+        secondsRemaning = eggTimes[hardness]!
+        
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+    }
+    
+    @objc func updateTimer(){
+        if secondsRemaning > 0{
+            print("\(secondsRemaning) seconds.")
+            secondsRemaning -= 1
+        }else{
+            timer.invalidate()
+            titleLabel.text = "Done!"
+        }
+    }
+    
 }
